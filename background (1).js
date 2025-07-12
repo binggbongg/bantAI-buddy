@@ -63,8 +63,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         analyzeMessage(request.text, request.messageId)
             .then(result => {
                 // for email notif feature
-                if (result && result.severity >= 3) {
-                    console.log('Severity is 3 or higher. Sending email notification.');
+                if (result && result.severity >= 1) {
+                    console.log('Sending email notification.');
                     notifyUserIfSevere(request.text, result);
                 }
                 sendResponse(result);
@@ -213,10 +213,10 @@ async function callAzureOpenAI(text, messageId, config) {
 
 //for email alert
 async function notifyUserIfSevere(text, analysis) {
-    if (analysis.severity < 3) {
-        console.log('Message severity below threshold for email notification.');
-        return;
-    }
+    // if (analysis.severity < 3) {
+    //     console.log('Message severity below threshold for email notification.');
+    //     return;
+    // }
 
     // Get the recipient email address from storage
     const { notifyEmailAddress } = await chrome.storage.sync.get('notifyEmailAddress');
